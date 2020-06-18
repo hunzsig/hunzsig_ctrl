@@ -1,0 +1,40 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "jsx": "react",
+        "module": "CommonJs",
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": ".",
+        "paths": {
+            "api": [
+                "./self_modules/api/index.js"
+            ],
+            "chart": [
+                "./self_modules/chart/index.js"
+            ],
+            "form": [
+                "./self_modules/form/index.js"
+            ],
+            "basic": [
+                "./self_modules/basic/index.js"
+            ],
+            "k-excel": [
+                "./self_modules/k-excel/index.js"
+            ],
+            "oss": [
+                "./self_modules/oss/index.js"
+            ],
+            "structure": [
+                "./self_modules/structure/index.js"
+            ],
+            "table": [
+                "./self_modules/table/index.js"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}
