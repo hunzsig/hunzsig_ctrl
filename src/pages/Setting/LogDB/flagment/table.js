@@ -9,7 +9,7 @@ export default () => {
   const [uniqueInfo, setUniqueInfo] = useState({});
   const [visible, setVisible] = useState(false);
 
-  const tableFix = 'yonna_i18n_';
+  const tableFix = 'y_i18n_';
   const col = [
     {
       width: 300,
