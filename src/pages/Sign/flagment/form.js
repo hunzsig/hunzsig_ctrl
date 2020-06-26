@@ -43,7 +43,7 @@ export default () => {
           Auth.setRemember(values.remember ? 1 : 0);
           Auth.setAccount(values.account);
         }
-        Auth.setUid(res.data.user_uid);
+        Auth.setUserId(res.data.user_uid);
         setTimeout(() => {
           Path.locationTo('/');
         }, 2000);

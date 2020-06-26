@@ -12,7 +12,7 @@ export default class AccountChangeLoginName extends Component {
   }
 
   componentDidMount() {
-    Api.query().cache('USER_INFO', {uid: Auth.getUid()}, (res) => {
+    Api.query().cache('USER_INFO', {uid: Auth.getUserId()}, (res) => {
       if (res.code === 200) {
         this.setState({
           userInfo: res.data,
@@ -61,7 +61,7 @@ export default class AccountChangeLoginName extends Component {
               this.setState({
                 userInfo: null,
               });
-              Api.query().real('USER_INFO', {uid: Auth.getUid()}, (res) => {
+              Api.query().real('USER_INFO', {uid: Auth.getUserId()}, (res) => {
                 if (res.code === 200) {
                   this.setState({
                     userInfo: res.data,

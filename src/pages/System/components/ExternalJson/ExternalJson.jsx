@@ -18,7 +18,7 @@ class ThisPage extends Component {
       loading: true,
       loadingDiyMenu: false,
       tabPosition: 'right',
-      uid: Auth.getUid(),
+      uid: Auth.getUserId(),
       userName: '',
       storeList: [],
       operation: [
@@ -331,11 +331,11 @@ class ThisPage extends Component {
               <Input
                 readOnly={true}
                 style={{width: '20%'}}
-                value={`正在查看『${(this.state.uid === Auth.getUid()) ? '你本人' : this.state.userName}』的配置`}
+                value={`正在查看『${(this.state.uid === Auth.getUserId()) ? '你本人' : this.state.userName}』的配置`}
               />
               <Select
                 style={{width: '20%'}}
-                defaultValue={Auth.getUid()}
+                defaultValue={Auth.getUserId()}
                 onChange={(...value) => {
                   this.state.uid = value[0];
                   this.state.userName = value[1].props.children;
@@ -346,7 +346,7 @@ class ThisPage extends Component {
                   this.query();
                 }}
               >
-                <Select.Option value={Auth.getUid()}>
+                <Select.Option value={Auth.getUserId()}>
                   - 我的配置 -
                   ({this.state.storeList.length <= 0 ? '点击右侧管理其他商户的配置' : `搜到 ${this.state.storeList.length} 个商户`})
                 </Select.Option>

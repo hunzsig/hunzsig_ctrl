@@ -11,7 +11,7 @@ export default class AccountChangeLoginPwd extends Component {
   }
 
   componentDidMount() {
-    Api.query().cache('USER_INFO', {uid: Auth.getUid()}, (res) => {
+    Api.query().cache('USER_INFO', {uid: Auth.getUserId()}, (res) => {
       if (res.code === 200) {
         this.setState({
           userInfo: res.data,
@@ -57,14 +57,14 @@ export default class AccountChangeLoginPwd extends Component {
               if (result.login_pwd !== result.login_pwd_confirm) {
                 return 'confirm password error';
               }
-              result.uid = Auth.getUid();
+              result.uid = Auth.getUserId();
               return result;
             },
             onSuccess: () => {
               this.setState({
                 userInfo: null,
               });
-              Api.real('User.Info.getInfo', {uid: Auth.getUid()}, (res) => {
+              Api.real('User.Info.getInfo', {uid: Auth.getUserId()}, (res) => {
                 if (res.code === 200) {
                   this.setState({
                     userInfo: res.data,
