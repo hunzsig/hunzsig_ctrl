@@ -34,7 +34,7 @@ export default () => {
       return;
     }
     setFormData({...formData, loginStatus: 'ing'});
-    Api.query().real('USER_LOGIN_ADMIN', values, (res) => {
+    Api.query().real('USER_ADMIN_LOGIN', values, (res) => {
       if (res.code === 200) {
         message.success(I18n('LOGIN_SUCCESS'));
         setFormData({...formData, loginStatus: 'ok'});
