@@ -9,7 +9,7 @@ export default (props) => {
 
   const params = {};
   for (let i in props.params) {
-    if (!props.params[i] || i === 'auth_user_id') {
+    if (!props.params[i] || i === 'logging_id') {
       continue;
     }
     if (i === 'log_time') {

@@ -12,17 +12,15 @@ if (!CONTAINER) {
   throw new Error('Not <div id="h-container"></div> Element.');
 }
 
-Api.config('default', '/api/ajax', 'http', false, 'scope',
-  null, // { mode: 'des-cbc', secret: 'iod13kxx' }
-  {}
-);
-Auth.setLoginPath('/sign/in');
+Auth.setLoginUrl('/sign/in');
 Image.set('404', './../../public/img/logo.png');
 
 I18nConfig.setLang('zh_cn');
 I18nConfig.setSupport(['zh_cn', 'zh_tw', 'zh_hk', 'en_us', 'ja_jp', 'ko_kr']);
+
 // 载入远端i18n数据
-Api.query().real('I18N_ALL', {}, (res) => {
+Api.config(Router, 'def', '/api/ajax', null /*{ mode: 'des-cbc', secret: 'iod13kxx' }*/, {});
+Api.query().post({I18N_ALL: {}}, (res) => {
   if (res.code === 200) {
     I18nConfig.setData(res.data);
     hRouter.setRouter(Router);

@@ -22,7 +22,7 @@ export default class ThisPage extends Component {
           { name: '性别', field: 'create_time', type: 'rangeDatetime' },
         ],
         display: [
-          { field: 'system_auth_user_id', name: '用户ID' },
+          { field: 'system_logging_id', name: '用户ID' },
           { field: 'system_auth_auth_name', name: '验证名' },
           { field: 'system_auth_auth_code', name: '验证码' },
           { field: 'system_auth_create_time', name: '创建时间' },

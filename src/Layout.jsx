@@ -31,7 +31,7 @@ class hLayout extends Component {
     }
     if (Auth.isOnline() === false) {
       message.error(I18n('LOGIN_OFFLINE'), 3.00);
-      this.props.history.replace(Auth.getLoginPath());
+      this.props.history.replace(Auth.getLoginUrl());
     }
     this.state = {
       collapsed: Number.parseInt(Cookie.get('collapsed'), 10) > 0,
@@ -54,76 +54,23 @@ class hLayout extends Component {
 
   componentDidMount() {
     if (Auth.isOnline()) {
-      Api.query().cache('USER_INFO', {uid: Auth.getUserId()}, (resUser) => {
+      Api.get().cache('USER_INFO', {id: Auth.getUserId()}, (resUser) => {
         if (resUser.code === 200) {
           this.setState({
             userInfo: resUser.data,
+            path: [],
+            routerHead: this.headRouter(),
+            active: this.getActive(),
+            open: this.getOpen(),
+            licensing: false,
           });
-          Api.query().cache('SYSTEM_DATA_GETINFOFORKEY', {key: ['path', 'permission']}, (res) => {
-            // path
-            if (resUser.data.user_check_path === true) {
-              if (res.code === 200) {
-                const permissionPath = this.getPermissionPath(resUser.data.user_permission, res.data.permission.system_data_data);
-                const path = [];
-                res.data.path.system_data_data.forEach((p) => {
-                  if (!permissionPath.includes(p.key)) {
-                    path.push(p.key);
-                  }
-                });
-                this.state.path = path;
-                this.setState({path: this.state.path});
-                this.routerFlat = this.flatRouter(this.routerAll);
-                this.setState({
-                  routerHead: this.headRouter(),
-                  active: this.getActive(),
-                  open: this.getOpen()
-                });
-                this.setState({licensing: false});
-              } else {
-                message.error(resUser.msg);
-              }
-            } else {
-              this.state.path = [];
-              this.setState({path: this.state.path});
-              this.routerFlat = this.flatRouter(this.routerAll);
-              this.setState({routerHead: this.headRouter(), active: this.getActive(), open: this.getOpen()});
-              this.setState({licensing: false});
-            }
-          });
+          this.routerFlat = this.flatRouter(this.routerAll);
         } else {
           message.error(resUser.msg);
         }
-      });
+      })
     }
   }
-
-  getPermissionPath = (userPermission, permission, path = [], prevKey = []) => {
-    if (!userPermission || !permission) return path;
-    permission.forEach((p) => {
-      const nextKey = JSON.parse(JSON.stringify(prevKey));
-      nextKey.push(p.key);
-      let flag = false;
-      const tempKey = [];
-      for (const i in nextKey) {
-        tempKey.push(nextKey[i]);
-        if (userPermission.includes(tempKey.join('-'))) {
-          flag = true;
-          break;
-        }
-      }
-      if (flag) {
-        if (p.path && Array.isArray(p.path)) {
-          p.path.forEach((pp) => {
-            if (!path.includes(pp)) path.push(pp);
-          });
-        }
-      }
-      if (p.children && Array.isArray(p.children)) {
-        path = this.getPermissionPath(userPermission, p.children, path, nextKey);
-      }
-    });
-    return path;
-  };
 
   getHead = () => {
     return '/' + (this.props.location.pathname.split('/')[1] || 'index');
@@ -244,7 +191,7 @@ class hLayout extends Component {
           if (res.code === 200) {
             message.success(I18n('LOGOUT_SUCCESS'));
             Auth.clearUid();
-            this.props.history.replace(Auth.getLoginPath());
+            this.props.history.replace(Auth.getLoginUrl());
           } else {
             message.error(res.response);
           }

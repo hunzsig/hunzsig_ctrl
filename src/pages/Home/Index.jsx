@@ -11,7 +11,7 @@ class Index extends Component {
   }
 
   componentDidMount() {
-    Api.query().real('PROJECT_STAT', {}, (res) => {
+    Api.post().real('PROJECT_INDEX', {}, (res) => {
       if (res.code === 200) {
         this.setState({
           stat: res.data,
