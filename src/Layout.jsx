@@ -54,7 +54,7 @@ class hLayout extends Component {
 
   componentDidMount() {
     if (Auth.isOnline()) {
-      Api.get().cache('USER_INFO', {id: Auth.getUserId()}, (resUser) => {
+      Api.query().post({USER_INFO: {id: Auth.getUserId()}}, (resUser) => {
         if (resUser.code === 200) {
           this.setState({
             userInfo: resUser.data,
@@ -187,7 +187,7 @@ class hLayout extends Component {
         // nothing
         break;
       case 'loginOut':
-        Api.query().real('USER_LOGOUT', {uid: Auth.getUserId()}, (res) => {
+        Api.query().real({USER_LOGOUT: {id: Auth.getUserId()}}, (res) => {
           if (res.code === 200) {
             message.success(I18n('LOGOUT_SUCCESS'));
             Auth.clearUid();

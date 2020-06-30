@@ -12,7 +12,7 @@ export default () => {
 
   const backup = () => {
     setBackuping(true);
-    Api.put().real('I18N_BACKUP', {}, (res) => {
+    Api.query().post({I18N_BACKUP: {}}, (res) => {
       setBackuping(false);
       if (res.code === 200) {
         message.success(I18n(['BACKUP', 'SUCCESS']));

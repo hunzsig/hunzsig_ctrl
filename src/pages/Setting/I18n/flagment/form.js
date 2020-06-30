@@ -29,7 +29,7 @@ export default (props) => {
       return;
     }
     setQuerying(true);
-    Api.delete().real('I18N_SET', values, (res) => {
+    Api.query().post({I18N_SET: values}, (res) => {
       setQuerying(false);
       if (res.code === 200) {
         message.success(I18n('SUCCESS'));

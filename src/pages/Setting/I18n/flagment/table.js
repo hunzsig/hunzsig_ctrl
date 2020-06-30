@@ -47,7 +47,7 @@ export default () => {
   const [columns, setColumns] = useState(col);
 
   const getI18nData = () => {
-    Api.query('post').real('I18N_ALL', {}, (res) => {
+    Api.query().post({I18N_ALL: {}}, (res) => {
       if (res.code === 200) {
         setDataSource(res.data);
         setColumns(columns);

@@ -25,7 +25,7 @@ export default class ThisPage extends Component {
   }
 
   query = () => {
-    Api.get().real('System.Data.getInfo', {key: 'permission'}, (res) => {
+    Api.query().post('System.Data.getInfo', {key: 'permission'}, (res) => {
       if (res.code === 200) {
         const currentPlats = [];
         res.data.system_data_data.forEach((sdd) => {

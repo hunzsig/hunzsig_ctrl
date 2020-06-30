@@ -46,7 +46,7 @@ class LogFile extends Component {
     this.setState({
       loading: true,
     });
-    Api.post().real('LOG_DIR', {}, (res) => {
+    Api.query().post({LOG_DIR: {}}, (res) => {
       this.setState({
         loading: false,
       });
@@ -63,7 +63,7 @@ class LogFile extends Component {
       putting: true,
       fileData: '...',
     });
-    Api.post().real('LOG_FILE', {file: file}, (res) => {
+    Api.query().post({LOG_FILE: {file: file}}, (res) => {
       this.setState({
         putting: false,
       });

@@ -55,7 +55,7 @@ class LogDB extends Component {
     this.setState({
       loading: true,
     });
-    Api.post().real('LOG_DB', this.state.params, (res) => {
+    Api.query().post({LOG_DB: this.state.params}, (res) => {
       this.setState({
         loading: false,
       });
