@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {ConfigProvider, Spin, Layout, Menu, message} from 'antd';
-import {LogoutOutlined, TranslationOutlined, LoadingOutlined} from '@ant-design/icons';
+import {ConfigProvider, Layout, Menu, message} from 'antd';
+import {LogoutOutlined, TranslationOutlined, UserOutlined} from '@ant-design/icons';
 import {withRouter} from 'react-router-dom';
 import {Api, Auth, I18n, I18nContainer, Cookie, I18nConfig} from 'h-react';
 import hRouter from './Router';
@@ -33,15 +33,6 @@ class hLayout extends Component {
       message.error(I18n('LOGIN_OFFLINE'), 3.00);
       this.props.history.replace(Auth.getLoginUrl());
     }
-    this.state = {
-      collapsed: Number.parseInt(Cookie.get('collapsed'), 10) > 0,
-      userInfo: {},
-      path: [],
-      routerHead: [],
-      licensing: true,
-      active: [],
-      open: [],
-    };
     this.routerAll = this.allRouter();
     this.routerFlat = this.flatRouter(this.routerAll);
     this.head = this.getHead();
@@ -50,19 +41,22 @@ class hLayout extends Component {
       return;
     }
     this.children = this.routerFlat[this.head].children || [];
+    this.state = {
+      collapsed: Number.parseInt(Cookie.get('collapsed'), 10) > 0,
+      userInfo: {},
+      path: [],
+    };
+    this.state.routerHead = this.headRouter();
+    this.state.active = this.getActive();
+    this.state.open = this.getOpen();
   }
 
   componentDidMount() {
     if (Auth.isOnline()) {
-      Api.query().post({USER_INFO: {id: Auth.getUserId()}}, (resUser) => {
+      Api.query().post({ADMIN_ME: {}}, (resUser) => {
         if (resUser.code === 200) {
           this.setState({
             userInfo: resUser.data,
-            path: [],
-            routerHead: this.headRouter(),
-            active: this.getActive(),
-            open: this.getOpen(),
-            licensing: false,
           });
           this.routerFlat = this.flatRouter(this.routerAll);
         } else {
@@ -186,8 +180,11 @@ class hLayout extends Component {
       case 'i18n':
         // nothing
         break;
+      case 'userInfo':
+        // nothing
+        break;
       case 'loginOut':
-        Api.query().real({USER_LOGOUT: {id: Auth.getUserId()}}, (res) => {
+        Api.query().post({ADMIN_LOGOUT: {id: Auth.getUserId()}}, (res) => {
           if (res.code === 200) {
             message.success(I18n('LOGOUT_SUCCESS'));
             Auth.clearUid();
@@ -199,7 +196,6 @@ class hLayout extends Component {
         break;
       default:
         if (evt.key !== this.props.location.pathname) {
-          console.log(evt.key)
           this.props.history.push(evt.key);
         }
         break;
@@ -248,6 +244,7 @@ class hLayout extends Component {
               onClick={this.onMenuClick}
             >
               <Menu.Item key="loginOut"><LogoutOutlined rotate={180}/>{I18n('LOGOUT')}</Menu.Item>
+              <Menu.Item key="userInfo"><UserOutlined/>{this.state.userInfo.user_meta_name || '(佚名)'}</Menu.Item>
               <Menu.Item key="i18n" className="i18n">
                 <I18nContainer placement="left"><TranslationOutlined/>Translate</I18nContainer>
               </Menu.Item>
@@ -271,20 +268,15 @@ class hLayout extends Component {
               collapsed={this.state.collapsed}
               onCollapse={this.onCollapse}
             >
-              {this.state.licensing === true &&
-              <Spin style={style.loading} indicator={<LoadingOutlined spin/>} color="#aaaaaa"/>}
-              {
-                this.state.licensing === false &&
-                <Menu
-                  defaultOpenKeys={this.state.active}
-                  selectedKeys={this.state.open}
-                  mode="inline"
-                  onOpenChange={this.onOpenChange}
-                  onClick={this.onMenuClick}
-                >
-                  {this.renderSub(this.children)}
-                </Menu>
-              }
+              <Menu
+                defaultOpenKeys={this.state.active}
+                selectedKeys={this.state.open}
+                mode="inline"
+                onOpenChange={this.onOpenChange}
+                onClick={this.onMenuClick}
+              >
+                {this.renderSub(this.children)}
+              </Menu>
             </Sider>
             <Content style={style.Content} id="layout">
               <div style={style.ContentChild}>

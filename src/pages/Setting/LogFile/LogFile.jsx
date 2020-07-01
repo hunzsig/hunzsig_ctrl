@@ -46,7 +46,7 @@ class LogFile extends Component {
     this.setState({
       loading: true,
     });
-    Api.query().post({LOG_DIR: {}}, (res) => {
+    Api.query().post({LOG_CATALOG: {}}, (res) => {
       this.setState({
         loading: false,
       });

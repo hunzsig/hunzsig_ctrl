@@ -56,7 +56,7 @@ const routerConfig = [
     children: [
       {
         path: '/index',
-        name: I18n(['PROJECT', 'STATISTICS']),
+        name: I18n(['PROJECT', 'STATISTIC']),
         icon: <DotChartOutlined/>,
         layout: Layout,
         component: () => import('./pages/Home/Index'),
