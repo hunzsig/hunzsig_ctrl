@@ -47,7 +47,7 @@ const routerConfig = [
     path: '/',
     name: I18n('HOME'),
     layout: Layout,
-    component: () => import('./pages/Home/Index'),
+    component: () => import('./pages/Home/Index/Home'),
   },
   {
     path: '/index',
@@ -59,7 +59,7 @@ const routerConfig = [
         name: I18n(['PROJECT', 'STATISTIC']),
         icon: <DotChartOutlined/>,
         layout: Layout,
-        component: () => import('./pages/Home/Index'),
+        component: () => import('./pages/Home/Index/Home'),
       },
       {
         path: '/account',

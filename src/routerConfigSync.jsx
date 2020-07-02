@@ -4,7 +4,7 @@
 
 import {AdminLayout} from 'structure';
 import NotFound from './pages/NotFound';
-import HomeIndex from './pages/Home/Index';
+import HomeIndex from './pages/Home/Index/Home';
 import PagesHomeAccountChangeLoginName from './pages/Home/AccountChangeLoginName';
 import PagesHomeAccountChangeLoginPwd from './pages/Home/AccountChangeLoginPwd';
 import PagesHomeAccountChangeSafePwd from './pages/Home/AccountChangeSafePwd';
