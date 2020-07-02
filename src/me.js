@@ -63,18 +63,20 @@ export default (props) => {
   };
 
   return (
-    <div>
+    <div onClick={() => {
+      if (visible === false) {
+        setVisible(true)
+      }
+    }}>
       <UserOutlined/>{userInfo.user_meta_name || '无名氏'}
       <Modal
         title={I18n(['CHANGE MY INFORMATION'])}
         visible={visible}
         footer={null}
         onOk={() => {
-          setUniqueInfo({});
           setVisible(false);
         }}
         onCancel={() => {
-          setUniqueInfo({});
           setVisible(false);
         }}
       >
