@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {ConfigProvider, Layout, Menu, message} from 'antd';
-import {LogoutOutlined, TranslationOutlined, UserOutlined} from '@ant-design/icons';
+import {LogoutOutlined, TranslationOutlined} from '@ant-design/icons';
 import {withRouter} from 'react-router-dom';
 import {Api, Auth, I18n, I18nContainer, Cookie, I18nConfig} from 'h-react';
 import hRouter from './Router';
+import Me from './me';
 
 import './Layout.less';
 
@@ -43,7 +44,6 @@ class hLayout extends Component {
     this.children = this.routerFlat[this.head].children || [];
     this.state = {
       collapsed: Number.parseInt(Cookie.get('collapsed'), 10) > 0,
-      userInfo: {},
       path: [],
     };
     this.state.routerHead = this.headRouter();
@@ -52,18 +52,6 @@ class hLayout extends Component {
   }
 
   componentDidMount() {
-    if (Auth.isOnline()) {
-      Api.query().post({ADMIN_ME: {}}, (resUser) => {
-        if (resUser.code === 200) {
-          this.setState({
-            userInfo: resUser.data,
-          });
-          this.routerFlat = this.flatRouter(this.routerAll);
-        } else {
-          message.error(resUser.msg);
-        }
-      })
-    }
   }
 
   getHead = () => {
@@ -180,7 +168,7 @@ class hLayout extends Component {
       case 'i18n':
         // nothing
         break;
-      case 'userInfo':
+      case 'me':
         // nothing
         break;
       case 'loginOut':
@@ -244,7 +232,7 @@ class hLayout extends Component {
               onClick={this.onMenuClick}
             >
               <Menu.Item key="loginOut"><LogoutOutlined rotate={180}/>{I18n('LOGOUT')}</Menu.Item>
-              <Menu.Item key="userInfo"><UserOutlined/>{this.state.userInfo.user_meta_name || '(佚名)'}</Menu.Item>
+              <Menu.Item key="me" className="me"><Me/></Menu.Item>
               <Menu.Item key="i18n" className="i18n">
                 <I18nContainer placement="left"><TranslationOutlined/>Translate</I18nContainer>
               </Menu.Item>

@@ -51,12 +51,12 @@ const routerConfig = [
   },
   {
     path: '/index',
-    name: I18n('HOME'),
-    icon: <HomeFilled/>,
+    name: I18n('STATISTIC'),
+    icon: <DotChartOutlined/>,
     children: [
       {
         path: '/index',
-        name: I18n(['PROJECT', 'STATISTIC']),
+        name: I18n(['USER', 'STATISTIC']),
         icon: <DotChartOutlined/>,
         layout: Layout,
         component: () => import('./pages/Home/Index/Home'),
