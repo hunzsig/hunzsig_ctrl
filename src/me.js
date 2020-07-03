@@ -47,15 +47,15 @@ export default (props) => {
       return;
     }
     setQuerying(true);
-    Api.query().post({I18N_SET: values}, (res) => {
-      setQuerying(false);
-      if (res.code === 200) {
-        message.success(I18n('SUCCESS'));
-        props.callback();
-      } else {
-        message.error(res.msg);
-      }
-    });
+    // Api.query().post({I18N_SET: values}, (res) => {
+    //   setQuerying(false);
+    //   if (res.code === 200) {
+    //     message.success(I18n('SUCCESS'));
+    //     props.callback();
+    //   } else {
+    //     message.error(res.msg);
+    //   }
+    // });
   };
 
   const onFinishFailed = errorInfo => {
@@ -68,7 +68,7 @@ export default (props) => {
         setVisible(true)
       }
     }}>
-      <UserOutlined/>{userInfo.user_meta_name || '无名氏'}
+      <UserOutlined/>{userInfo.user_meta_name || userInfo.user_meta_nickname || '无名氏'}
       <Modal
         title={I18n(['CHANGE MY INFORMATION'])}
         visible={visible}
@@ -87,10 +87,68 @@ export default (props) => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
+          <Form.Item
+            key="password"
+            name="password"
+          >
+            <Input.Password
+              addonBefore={I18n("PASSWORD")}
+              placeholder={
+                I18n(['PLEASE_INPUT', 'YOUR', 'NEW'])
+                + I18n("PASSWORD")
+                + '('
+                + I18n("Fill in the blank to indicate no modification")
+                + ')'
+              }
+              name="password"
+              allowClear={true}
+            />
+          </Form.Item>
+          <Form.Item
+            noStyle
+            shouldUpdate={(prevValues, currentValues) => prevValues.password !== currentValues.password}
+          >
+            {({getFieldValue}) => {
+              console.log(getFieldValue('password'));
+              return (getFieldValue('password') || '') !== '' ? (
+                <Form.Item
+                  key="confirm_password"
+                  name="confirm_password"
+                  dependencies={['password']}
+                  hasFeedback
+                  rules={[
+                    {
+                      required: true,
+                      message: I18n(['CONFIRM', 'YOUR', 'PASSWORD']) + '!',
+                    },
+                    ({getFieldValue}) => ({
+                      validator(rule, value) {
+                        if (!value || getFieldValue('password') === value) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject(I18n('The two passwords that you entered do not match!'));
+                      },
+                    }),
+                  ]}
+                >
+                  <Input.Password
+                    addonBefore={I18n("CONFIRM_PASSWORD")}
+                    placeholder={I18n(['PLEASE_INPUT', 'YOUR', 'NEW']) + I18n("PASSWORD")}
+                    name="password"
+                    allowClear={true}
+                  />
+                </Form.Item>
+              ) : null;
+            }}
+          </Form.Item>
           {
             Object.entries(userInfo).map((v) => {
-              if (v[0] === '_id') {
+              if (v[0] === 'user_id') {
                 return null;
+              }
+              let field = v[0]
+              if (field.indexOf('user_meta_') === 0) {
+                field = field.replace('user_meta_', '');
               }
               return (
                 <Form.Item
@@ -99,11 +157,16 @@ export default (props) => {
                   rules={[
                     {
                       required: true,
-                      message: I18n(['PLEASE_INPUT', 'YOUR']) + v[0] + '!',
+                      message: I18n(['PLEASE_INPUT', 'YOUR']) + I18n(field) + '!',
                     },
                   ]}
                 >
-                  <Input addonBefore={v[0]} name={v[0]} allowClear={true}/>
+                  <Input
+                    addonBefore={I18n(field)}
+                    placeholder={I18n(['PLEASE_INPUT', 'YOUR', 'NEW']) + I18n(field)}
+                    name={v[0]}
+                    allowClear={true}
+                  />
                 </Form.Item>
               );
             })
