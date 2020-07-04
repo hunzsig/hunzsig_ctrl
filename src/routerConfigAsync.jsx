@@ -47,7 +47,7 @@ const routerConfig = [
     path: '/',
     name: I18n('HOME'),
     layout: Layout,
-    component: () => import('./pages/Home/Index/Home'),
+    component: () => import('./pages/Home/User'),
   },
   {
     path: '/index',
@@ -59,27 +59,7 @@ const routerConfig = [
         name: I18n(['USER', 'STATISTIC']),
         icon: <DotChartOutlined/>,
         layout: Layout,
-        component: () => import('./pages/Home/Index/Home'),
-      },
-      {
-        path: '/account',
-        name: I18n('ACCOUNT'),
-        icon: <UserOutlined/>,
-        layout: Layout,
-        children: [
-          {
-            path: '/changeLoginName',
-            name: I18n('USER_NAME'),
-            layout: Layout,
-            component: () => import('./pages/Home/AccountChangeLoginName'),
-          },
-          {
-            path: '/changeLoginPwd',
-            name: I18n('LOGIN_PASSWORD'),
-            layout: Layout,
-            component: () => import('./pages/Home/AccountChangeLoginPwd'),
-          },
-        ],
+        component: () => import('./pages/Home/User'),
       },
     ],
   },

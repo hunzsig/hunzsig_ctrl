@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Row, Col} from 'antd';
 import Chart from './flagment/chart';
 
-class Home extends Component {
+class User extends Component {
   constructor(props) {
     super(props);
   }
@@ -11,7 +11,7 @@ class Home extends Component {
     return (
       <div>
         <Row type="flex" justify="center" align="middle">
-          <Col span={24}>
+          <Col span={22}>
             <Chart/>
           </Col>
         </Row>
@@ -20,4 +20,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default User;
